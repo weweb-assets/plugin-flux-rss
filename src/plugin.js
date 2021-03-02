@@ -33,8 +33,8 @@ export default {
     \================================================================================================*/
     async sidebarButton() {
         try {
-            const { id, settings } = wwLib.wwPlugins.pluginFluxRss;
-            const isSetup = !!settings.privateData.APIs.length;
+            const { id, settings, isNew } = wwLib.wwPlugins.pluginFluxRss;
+            const isSetup = !isNew;
             const isFirstTime = !settings.privateData.APIs.length;
             await wwLib.wwPopups.open({
                 firstPage: isSetup ? 'FLUX_RSS_POPUP' : 'FLUX_RSS_APIS_POPUP',
