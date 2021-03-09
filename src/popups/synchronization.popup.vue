@@ -1,29 +1,29 @@
 <template>
-    <div class="ww-popup-flux-rss-sync">
-        <button class="flux-rss-sync__all ww-editor-button -primary -green" @click="syncAll" :disabled="isFetching">
+    <div class="ww-popup-rss-feed-sync">
+        <button class="rss-feed-sync__all ww-editor-button -primary -green" @click="syncAll" :disabled="isFetching">
             <div v-if="!isFetching">Synchronize all</div>
             <div v-else>Fetching...</div>
         </button>
-        <div class="flux-rss-sync__row" v-for="(api, index) in settings.privateData.APIs" :key="index">
-            <div class="paragraph-m">{{ api.name || api.url }}</div>
+        <div class="rss-feed-sync__row" v-for="(feed, index) in settings.privateData.APIs" :key="index">
+            <div class="paragraph-m">{{ feed.name || feed.url }}</div>
             <div class="caption-m m-auto-left">
-                <template v-if="!isApiFetching(api)">
-                    <template v-if="getSource(api).lastSyncDate">
-                        {{ getSource(api).lastSyncDate | dateFromNow }}
+                <template v-if="!isFeedFetching(feed)">
+                    <template v-if="getSource(feed).lastSyncDate">
+                        {{ getSource(feed).lastSyncDate | dateFromNow }}
                     </template>
                     <template v-else>never synchronized</template>
                 </template>
             </div>
             <button
-                :disabled="isApiFetching(api)"
+                :disabled="isFeedFetching(feed)"
                 class="ww-editor-button -primary -green -small m-left"
-                @click="sync(api)"
+                @click="sync(feed)"
             >
-                <div v-if="!isApiFetching(api)">Synchronize API</div>
+                <div v-if="!isFeedFetching(feed)">Synchronize feed</div>
                 <div v-else>Fetching...</div>
             </button>
         </div>
-        <div class="flux-rss-sync__separator"></div>
+        <div class="rss-feed-sync__separator"></div>
     </div>
 </template>
 
@@ -48,35 +48,35 @@ export default {
     data() {
         return {
             isFetching: false,
-            apisFetching: [],
+            feedsFetching: [],
             settings: {
                 privateData: {},
             },
         };
     },
     methods: {
-        getSource(api) {
-            return wwLib.$store.getters['cms/getData'][api.id] || {};
+        getSource(feed) {
+            return wwLib.$store.getters['cms/getData'][feed.id] || {};
         },
-        isApiFetching(api) {
-            return this.apisFetching.indexOf(api.id) !== -1;
+        isFeedFetching(feed) {
+            return this.feedsFetching.indexOf(feed.id) !== -1;
         },
-        apiFetching(api, value) {
+        feedFetching(feed, value) {
             if (value) {
-                this.apisFetching.push(api.id);
+                this.feedsFetching.push(feed.id);
             } else {
-                const index = this.apisFetching.indexOf(api.id);
-                if (index !== -1) this.apisFetching.splice(index, 1);
+                const index = this.feedsFetching.indexOf(feed.id);
+                if (index !== -1) this.feedsFetching.splice(index, 1);
             }
         },
-        async sync(api) {
-            this.apiFetching(api, true);
+        async sync(feed) {
+            this.feedFetching(feed, true);
             try {
-                await wwLib.wwPlugin.saveCmsDataSet(this.settings.id, api.id, api.name, api.displayBy, 'FluxRss');
+                await wwLib.wwPlugin.saveCmsDataSet(this.settings.id, feed.id, feed.name, feed.displayBy, 'FluxRss');
 
                 wwLib.wwNotification.open({
                     text: {
-                        en: `Api "${api.name}" succesfully fetched`,
+                        en: `Feed "${feed.name}" succesfully fetched`,
                     },
                     color: 'green',
                 });
@@ -90,11 +90,11 @@ export default {
                 });
                 wwLib.wwLog.error(err);
             }
-            this.apiFetching(api, false);
+            this.feedFetching(feed, false);
         },
         async syncAll() {
             this.isFetching = true;
-            for (const api of this.settings.privateData.APIs) await this.sync(api);
+            for (const feed of this.settings.privateData.APIs) await this.sync(feed);
             this.isFetching = false;
         },
     },
@@ -108,12 +108,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.ww-popup-flux-rss-sync {
+.ww-popup-rss-feed-sync {
     position: relative;
     display: flex;
     flex-direction: column;
     padding: var(--ww-spacing-03) 0;
-    .flux-rss-sync {
+    .rss-feed-sync {
         &__all {
             margin: 0 auto var(--ww-spacing-02) auto;
         }

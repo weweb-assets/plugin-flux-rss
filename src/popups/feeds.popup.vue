@@ -1,10 +1,10 @@
 <template>
-    <div class="ww-popup-flux-rss-apis">
-        <button class="flux-rss-apis__all ww-editor-button -primary" @click="addApi">Add API</button>
-        <div class="flux-rss-apis__row" v-for="(api, index) in settings.privateData.APIs" :key="index">
-            <div class="paragraph-m">{{ api.name || api.url }}</div>
-            <button class="ww-editor-button -secondary -small m-auto-left" @click="editApi(index, api)">Edit</button>
-            <div class="flux-rss-apis__button-delete m-left" @click="deleteApi(index)">
+    <div class="ww-popup-rss-feed-feeds">
+        <button class="rss-feed-feeds__all ww-editor-button -primary" @click="addFeed">Add feed</button>
+        <div class="rss-feed-feeds__row" v-for="(feed, index) in settings.privateData.APIs" :key="index">
+            <div class="paragraph-m">{{ feed.name || feed.url }}</div>
+            <button class="ww-editor-button -secondary -small m-auto-left" @click="editFeed(index, feed)">Edit</button>
+            <div class="rss-feed-feeds__button-delete m-left" @click="deleteFeed(index)">
                 <wwEditorIcon name="delete" small />
             </div>
         </div>
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-    name: 'ApisPopup',
+    name: 'FeedsPopup',
     props: {
         options: {
             type: Object,
@@ -40,28 +40,28 @@ export default {
         },
     },
     methods: {
-        async addApi() {
+        async addFeed() {
             try {
                 const result = await wwLib.wwPopups.open({
-                    firstPage: 'FLUX_RSS_ADD_API_POPUP',
+                    firstPage: 'RSS_FEED_ADD_FEED_POPUP',
                 });
-                this.settings.privateData.APIs.push(result.api);
+                this.settings.privateData.APIs.push(result.feed);
             } catch (err) {
                 wwLib.wwLog.error(err);
             }
         },
-        async editApi(index, api) {
+        async editFeed(index, feed) {
             try {
                 const result = await wwLib.wwPopups.open({
-                    firstPage: 'FLUX_RSS_EDIT_API_POPUP',
-                    data: { api },
+                    firstPage: 'RSS_FEED_EDIT_FEED_POPUP',
+                    data: { feed },
                 });
-                this.settings.privateData.APIs.splice(index, 1, result.api);
+                this.settings.privateData.APIs.splice(index, 1, result.feed);
             } catch (err) {
                 wwLib.wwLog.error(err);
             }
         },
-        async deleteApi(index) {
+        async deleteFeed(index) {
             const confirm = await wwLib.wwModals.open({
                 title: {
                     en: 'Delete data source?',
@@ -106,10 +106,10 @@ export default {
                     this.settings.privateData
                 );
 
-                const oldApis = this.options.data.settings.privateData.APIs;
-                const newApis = this.options.result.settings.privateData.APIs;
-                const deletedApis = oldApis.filter(api => !newApis.find(elem => elem.id === api.id));
-                deletedApis.forEach(api => wwLib.wwPlugin.deleteCmsDataSet(api.id));
+                const oldFeeds = this.options.data.settings.privateData.APIs;
+                const newFeeds = this.options.result.settings.privateData.APIs;
+                const deletedFeeds = oldFeeds.filter(feed => !newFeeds.find(elem => elem.id === feed.id));
+                deletedFeeds.forEach(feed => wwLib.wwPlugin.deleteCmsDataSet(feed.id));
 
                 wwLib.wwPlugins.pluginFluxRss.settings = plugin.settings;
                 this.options.data.settings = plugin.settings;
@@ -128,12 +128,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.ww-popup-flux-rss-apis {
+.ww-popup-rss-feed-feeds {
     position: relative;
     display: flex;
     flex-direction: column;
     padding: var(--ww-spacing-03) 0;
-    .flux-rss-apis {
+    .rss-feed-feeds {
         &__all {
             margin: 0 auto var(--ww-spacing-02) auto;
         }

@@ -1,29 +1,29 @@
 <template>
-    <div class="ww-popup-flux-rss-settings">
-        <div class="flux-rss-settings__properties" @click="next('FLUX_RSS_SYNCHRONIZATION_POPUP')">
-            <wwEditorIcon class="flux-rss-settings__properties-icon -left" name="download" />
-            <div class="flux-rss-settings__properties-name paragraph-s">Synchronisation</div>
-            <wwEditorIcon class="flux-rss-settings__properties-icon -right" name="chevron-forward" />
+    <div class="ww-popup-rss-feed-settings">
+        <div class="rss-feed-settings__properties" @click="next('RSS_FEED_SYNCHRONIZATION_POPUP')">
+            <wwEditorIcon class="rss-feed-settings__properties-icon -left" name="download" />
+            <div class="rss-feed-settings__properties-name paragraph-s">Synchronisation</div>
+            <wwEditorIcon class="rss-feed-settings__properties-icon -right" name="chevron-forward" />
         </div>
-        <div class="flux-rss-settings__properties" @click="next('FLUX_RSS_WEBHOOKS_POPUP')">
-            <wwEditorIcon class="flux-rss-settings__properties-icon -left" name="copy-paste" />
-            <div class="flux-rss-settings__properties-name paragraph-s">Webhooks</div>
-            <wwEditorIcon class="flux-rss-settings__properties-icon -right" name="chevron-forward" />
+        <div class="rss-feed-settings__properties" @click="next('RSS_FEED_WEBHOOKS_POPUP')">
+            <wwEditorIcon class="rss-feed-settings__properties-icon -left" name="copy-paste" />
+            <div class="rss-feed-settings__properties-name paragraph-s">Webhooks</div>
+            <wwEditorIcon class="rss-feed-settings__properties-icon -right" name="chevron-forward" />
         </div>
-        <div class="flux-rss-settings__properties" @click="next('FLUX_RSS_APIS_POPUP')">
-            <wwEditorIcon class="flux-rss-settings__properties-icon -left" name="bind" />
-            <div class="flux-rss-settings__properties-name paragraph-s">APIs</div>
-            <wwEditorIcon class="flux-rss-settings__properties-icon -right" name="chevron-forward" />
+        <div class="rss-feed-settings__properties" @click="next('RSS_FEED_FEEDS_POPUP')">
+            <wwEditorIcon class="rss-feed-settings__properties-icon -left" name="bind" />
+            <div class="rss-feed-settings__properties-name paragraph-s">Feeds</div>
+            <wwEditorIcon class="rss-feed-settings__properties-icon -right" name="chevron-forward" />
         </div>
-        <a class="flux-rss-settings__properties" href="//developer.weweb.io/" target="_blank">
-            <wwEditorIcon class="flux-rss-settings__properties-icon -left" name="comment" />
-            <div class="flux-rss-settings__properties-name paragraph-s">Documentation</div>
-            <wwEditorIcon class="flux-rss-settings__properties-icon -right" name="chevron-forward" />
+        <a class="rss-feed-settings__properties" href="//developer.weweb.io/" target="_blank">
+            <wwEditorIcon class="rss-feed-settings__properties-icon -left" name="comment" />
+            <div class="rss-feed-settings__properties-name paragraph-s">Documentation</div>
+            <wwEditorIcon class="rss-feed-settings__properties-icon -right" name="chevron-forward" />
         </a>
-        <div class="flux-rss-settings__delete-zone danger-zone">
-            <span class="flux-rss-settings__delete-zone-label">DANGER ZONE</span>
+        <div class="rss-feed-settings__delete-zone danger-zone">
+            <span class="rss-feed-settings__delete-zone-label">DANGER ZONE</span>
             <button
-                class="flux-rss-settings__delete-zone-button ww-editor-button -primary -red -small"
+                class="rss-feed-settings__delete-zone-button ww-editor-button -primary -red -small"
                 @click="deletePlugin"
             >
                 Delete plugin
@@ -56,7 +56,7 @@ export default {
         async deletePlugin() {
             const confirm = await wwLib.wwModals.open({
                 title: {
-                    en: 'Delete plugin Flux RSS?',
+                    en: 'Delete plugin RSS feed?',
                     fr: 'Supprimer le plugin Flux RSS ?',
                 },
                 text: {
@@ -96,12 +96,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.ww-popup-flux-rss-settings {
+.ww-popup-rss-feed-settings {
     position: relative;
     display: flex;
     flex-direction: column;
     padding: var(--ww-spacing-03) 0;
-    .flux-rss-settings {
+    .rss-feed-settings {
         &__input {
             margin-bottom: var(--ww-spacing-03);
         }

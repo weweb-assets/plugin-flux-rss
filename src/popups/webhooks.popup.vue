@@ -1,8 +1,8 @@
 <template>
-    <div class="ww-popup-flux-rss-webhooks">
-        <div class="flux-rss-webhooks__row" v-for="(api, index) in settings.privateData.APIs" :key="index">
-            <div class="paragraph-m">{{ api.name || api.url }}</div>
-            <button class="ww-editor-button -primary -green -small m-auto-left" @click="copyUrl(api)">
+    <div class="ww-popup-rss-feed-webhooks">
+        <div class="rss-feed-webhooks__row" v-for="(feed, index) in settings.privateData.APIs" :key="index">
+            <div class="paragraph-m">{{ feed.name || feed.url }}</div>
+            <button class="ww-editor-button -primary -green -small m-auto-left" @click="copyUrl(feed)">
                 <wwEditorIcon class="ww-editor-button-icon -left" name="copy-paste" small />
                 Copy url
             </button>
@@ -29,12 +29,12 @@ export default {
         };
     },
     methods: {
-        async copyUrl(api) {
+        async copyUrl(feed) {
             const designId = wwLib.wwWebsiteData.getInfo().id;
             await wwLib
                 .getManagerWindow()
                 .navigator.clipboard.writeText(
-                    `https://data.weweb.io/designs/${designId}/cms_data_set/${api.id}/callback`
+                    `https://data.weweb.io/designs/${designId}/cms_data_set/${feed.id}/callback`
                 );
             wwLib.wwNotification.open({
                 text: {
@@ -51,12 +51,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.ww-popup-flux-rss-webhooks {
+.ww-popup-rss-feed-webhooks {
     position: relative;
     display: flex;
     flex-direction: column;
     padding: var(--ww-spacing-03) 0;
-    .flux-rss-webhooks {
+    .rss-feed-webhooks {
         &__row {
             display: flex;
             align-items: center;

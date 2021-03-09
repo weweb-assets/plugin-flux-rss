@@ -1,65 +1,65 @@
 <template>
-    <div class="ww-popup-flux-rss-api">
-        <label class="flux-rss-api__label caption-s" for="url-flux-rss">
+    <div class="ww-popup-rss-feed-feed">
+        <label class="rss-feed-feed__label caption-s" for="url-rss-feed">
             Url
-            <div class="flux-rss-api__label-required">required</div>
+            <div class="rss-feed-feed__label-required">required</div>
         </label>
         <input
             type="text"
-            name="url-flux-rss"
-            class="flux-rss-api__input caption-m ww-editor-input -large"
-            placeholder="https://api-url.com/endpoint"
-            v-model="api.url"
+            name="url-rss-feed"
+            class="rss-feed-feed__input caption-m ww-editor-input -large"
+            placeholder="https://feed-url.com/endpoint"
+            v-model="feed.url"
             autofocus
         />
-        <label class="flux-rss-api__label caption-s" for="name-flux-rss">
+        <label class="rss-feed-feed__label caption-s" for="name-rss-feed">
             Name
-            <div class="flux-rss-api__label-required">optional</div>
+            <div class="rss-feed-feed__label-required">required</div>
         </label>
         <input
             type="text"
-            name="name-flux-rss"
-            class="flux-rss-api__input caption-m ww-editor-input -large"
-            placeholder="My Api "
-            v-model="api.name"
-            :disabled="!api.url"
+            name="name-rss-feed"
+            class="rss-feed-feed__input caption-m ww-editor-input -large"
+            placeholder="My feed"
+            v-model="feed.name"
+            :disabled="!feed.url"
         />
-        <label class="flux-rss-api__label caption-s" for="display-by-flux-rss">
+        <label class="rss-feed-feed__label caption-s" for="display-by-rss-feed">
             Display by
-            <div class="flux-rss-api__label-required">optional</div>
+            <div class="rss-feed-feed__label-required">optional</div>
         </label>
         <input
             type="text"
-            name="display-by-flux-rss"
-            class="flux-rss-api__input caption-m ww-editor-input -large"
+            name="display-by-rss-feed"
+            class="rss-feed-feed__input caption-m ww-editor-input -large"
             placeholder="name"
-            v-model="api.displayBy"
-            :disabled="!api.url"
+            v-model="feed.displayBy"
+            :disabled="!feed.url"
         />
-        <div class="flux-rss-api__row flux-rss-api__input">
-            <label class="flux-rss-api__label caption-s" for="flux-rss-headers"> Headers </label>
-            <button class="ww-editor-button -primary -small m-auto-left" @click="addHeader" :disabled="!api.url">
+        <div class="rss-feed-feed__row rss-feed-feed__input">
+            <label class="rss-feed-feed__label caption-s" for="rss-feed-headers"> Headers </label>
+            <button class="ww-editor-button -primary -small m-auto-left" @click="addHeader" :disabled="!feed.url">
                 Add header field
             </button>
         </div>
-        <div class="flux-rss-api__row -space-between" v-for="(header, index) of api.headers" :key="index">
-            <div class="flux-rss-api__row-item">
+        <div class="rss-feed-feed__row -space-between" v-for="(header, index) of feed.headers" :key="index">
+            <div class="rss-feed-feed__row-item">
                 <input
                     type="text"
-                    class="flux-rss-api__input caption-m ww-editor-input"
+                    class="rss-feed-feed__input caption-m ww-editor-input"
                     placeholder="Key"
                     v-model="header.key"
                 />
             </div>
-            <div class="flux-rss-api__row-item">
+            <div class="rss-feed-feed__row-item">
                 <input
                     type="text"
-                    class="flux-rss-api__input caption-m ww-editor-input"
+                    class="rss-feed-feed__input caption-m ww-editor-input"
                     placeholder="value"
                     v-model="header.value"
                 />
             </div>
-            <div class="flux-rss-api__input flux-rss-api__button-delete" @click="deleteHeader(index)">
+            <div class="rss-feed-feed__input rss-feed-feed__button-delete" @click="deleteHeader(index)">
                 <wwEditorIcon name="delete" small />
             </div>
         </div>
@@ -68,7 +68,7 @@
 
 <script>
 export default {
-    name: 'ApiPopup',
+    name: 'FeedPopup',
     props: {
         options: {
             type: Object,
@@ -79,7 +79,7 @@ export default {
     },
     data() {
         return {
-            api: {
+            feed: {
                 id: wwLib.wwUtils.getUid(),
                 url: undefined,
                 name: undefined,
@@ -95,32 +95,32 @@ export default {
     },
     computed: {
         isSetup() {
-            return !!this.api.url && !!this.api.url.length;
+            return !!this.feed.url && !!this.feed.url.length && !!this.feed.name && !!this.feed.name.length;
         },
     },
     methods: {
         addHeader() {
-            this.api.headers.push({ key: '', value: '' });
+            this.feed.headers.push({ key: '', value: '' });
         },
         deleteHeader(index) {
-            this.api.headers.splice(index, 1);
+            this.feed.headers.splice(index, 1);
         },
     },
     created() {
-        this.api = this.options.data.api || this.api;
-        this.options.result.api = this.api;
+        this.feed = this.options.data.feed || this.feed;
+        this.options.result.feed = this.feed;
         this.options.setButtonState('SAVE', this.isSetup ? 'ok' : 'disabled');
     },
 };
 </script>
 
 <style scoped lang="scss">
-.ww-popup-flux-rss-api {
+.ww-popup-rss-feed-feed {
     position: relative;
     display: flex;
     flex-direction: column;
     padding: var(--ww-spacing-03) 0;
-    .flux-rss-api {
+    .rss-feed-feed {
         &__label {
             display: flex;
             align-items: center;

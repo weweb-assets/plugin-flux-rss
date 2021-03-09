@@ -23,6 +23,7 @@ export default {
         plugin.settings = (await wwLib.wwPlugin.getSettings(plugin.id)) || this.settings;
         if (!plugin.settings.privateData.APIs) plugin.settings.privateData.APIs = [];
         if (plugin.isNew && !plugin.settings.privateData.APIs.length) {
+            plugin.isNew = false;
             this.sidebarButton();
         }
         /* wwEditor:end */
@@ -37,7 +38,7 @@ export default {
             const isSetup = !isNew;
             const isFirstTime = !settings.privateData.APIs.length;
             await wwLib.wwPopups.open({
-                firstPage: isSetup ? 'FLUX_RSS_POPUP' : 'FLUX_RSS_APIS_POPUP',
+                firstPage: isSetup ? 'RSS_FEED_POPUP' : 'RSS_FEED_FEEDS_POPUP',
                 data: {
                     isFirstTime,
                     pluginId: id,
