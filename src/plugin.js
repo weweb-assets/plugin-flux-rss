@@ -23,7 +23,6 @@ export default {
         plugin.settings = (await wwLib.wwPlugin.getSettings(plugin.id)) || this.settings;
         if (!plugin.settings.privateData.APIs) plugin.settings.privateData.APIs = [];
         if (plugin.isNew && !plugin.settings.privateData.APIs.length) {
-            plugin.isNew = false;
             this.sidebarButton();
         }
         /* wwEditor:end */
@@ -48,6 +47,7 @@ export default {
         } catch (err) {
             wwLib.wwLog.error(err);
         }
+        wwLib.wwPlugins.pluginFluxRss.isNew = false;
     },
     /* wwEditor:end */
 };
