@@ -29,6 +29,33 @@ export default {
     },
     /* wwEditor:start */
     /*=============================================m_ÔÔ_m=============================================\
+        SYNCHRONIZE
+    \================================================================================================*/
+    async sync(feed) {
+        try {
+            await wwLib.wwPlugin.saveCmsDataSet(this.settings.id, feed.id, feed.name, feed.displayBy, 'FluxRss');
+
+            wwLib.wwNotification.open({
+                text: {
+                    en: `Feed "${feed.name}" succesfully fetched`,
+                },
+                color: 'green',
+            });
+        } catch (err) {
+            wwLib.wwNotification.open({
+                text: {
+                    en: 'An error occured, please try again later.',
+                    fr: 'Une erreur est survenue. Veuillez réessayer plus tard.',
+                },
+                color: 'red',
+            });
+            wwLib.wwLog.error(err);
+        }
+    },
+    async syncAll() {
+        for (const feed of this.settings.privateData.APIs) await this.sync(feed);
+    },
+    /*=============================================m_ÔÔ_m=============================================\
         SIDEBAR POPUP
     \================================================================================================*/
     async sidebarButton() {

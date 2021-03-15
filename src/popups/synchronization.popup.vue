@@ -71,25 +71,7 @@ export default {
         },
         async sync(feed) {
             this.feedFetching(feed, true);
-            try {
-                await wwLib.wwPlugin.saveCmsDataSet(this.settings.id, feed.id, feed.name, feed.displayBy, 'FluxRss');
-
-                wwLib.wwNotification.open({
-                    text: {
-                        en: `Feed "${feed.name}" succesfully fetched`,
-                    },
-                    color: 'green',
-                });
-            } catch (err) {
-                wwLib.wwNotification.open({
-                    text: {
-                        en: 'An error occured, please try again later.',
-                        fr: 'Une erreur est survenue. Veuillez réessayer plus tard.',
-                    },
-                    color: 'red',
-                });
-                wwLib.wwLog.error(err);
-            }
+            await wwLib.wwPlugins.pluginFluxRss.sync(feed);
             this.feedFetching(feed, false);
         },
         async syncAll() {
