@@ -28,6 +28,7 @@
                     placeholder="Key"
                     :value="header.key"
                     @input="setHeaderProp('key', $event)"
+                    v-on:keyup.native.enter="$emit('next')"
                 />
                 <wwEditorFormInput
                     type="text"
@@ -35,6 +36,7 @@
                     placeholder="Value"
                     :value="header.value"
                     @input="setHeaderProp('value', $event)"
+                    v-on:keyup.native.enter="$emit('next')"
                 />
                 <button class="ww-editor-button -tertiary -small -icon -red" @click="deleteHeader(index)">
                     <wwEditorIcon class="ww-editor-button-icon" name="delete" small />
